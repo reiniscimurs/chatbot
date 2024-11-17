@@ -8,8 +8,8 @@ import secrets
 
 @st.cache_resource
 def load_pipeline():
-    model_id = "HuggingFaceTB/SmolLM2-1.7B-Instruct"
-    # model_id = "meta-llama/Llama-3.2-3B-Instruct"
+    # model_id = "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+    model_id = "meta-llama/Llama-3.2-3B-Instruct"
     pipeline = transformers.pipeline(
         "text-generation",
         model = model_id,
@@ -37,6 +37,7 @@ LOGICAL_PRIMER = (
                   "- Flugreisen: Müssen wir weniger fliegen, um den Klimawandel zu bremsen, auch wenn es unsere Mobilität einschränkt? "
                   "- Halten Sie die Konversation sachlich, logisch und respektvoll. "
                   "- Vermeiden Sie emotionale Appelle oder persönliche Bezüge."
+                  "Antwort in 50 Wörtern oder weniger erstellen."
                   )
 
 BASE_PRIMER = (
@@ -45,6 +46,7 @@ BASE_PRIMER = (
                   "Du du lenkst die Unterhaltung höflich zurück, falls der Benutzer Themen ueber Nachhaltigkeit anspricht."
                   "Begrüße den Benutzer immer mit: „Hi, schön Sie kennenzulernen.Was tun Sie, um Ihr Wohlbefinden im sozialen Leben zu steigern? Was sind Ihre Gewohnheiten?“ "
                   "Halte den Fokus auf das soziale Leben und ermutige den Benutzer, über seine Erfahrungen und Gewohnheiten zu sprechen."
+                 "Antwort in 50 Wörtern oder weniger erstellen."
                   )
 
 EMOTIONAL_PRIMER = (
@@ -66,22 +68,22 @@ EMOTIONAL_PRIMER = (
     "- Flugreisen: Müssen wir weniger fliegen, um den Klimawandel zu bremsen, auch wenn es unsere Mobilität einschränkt? "
 
     "- Halte den Ton locker und freundlich, wie in einem Gespräch mit einem Gleichgesinnten. "
-    "- Ermutige den Benutzer zur Meinung, indem du immer nach seiner Sichtweise fragst."
+    "- Ermutige den Benutzer zur Meinung, indem du immer nach seiner Sichtweise fragst." 
+    "Antwort in 50 Wörtern oder weniger erstellen."
 )
 
-PAGE_TITLE = "Sustainability ChatBot - Arambot"
-WELCOME_MESSAGE = "Welcome to Arambot - Discuss Sustainability!"
-ENTER_IDENTIFIER = "Please enter your name to begin:"
-SECOND_WELCOME_MESSAGE = "Welcome to the Personal Sustainability ChatBot"
-CHATBOT_DESCRIPTION = "*This is a simple chatbot geared towards conversations about sustainability.*"
-TOPIC_SELECTION = "What topic are you skeptical about with regards to sustainability?"
-AVATAR_SELECTION = "*Select Avatars:*"
-GOODBYE_MESSAGE = "Thank you for interacting with Sustainability ChatBot!"
-LINK_MESSAGE = "Please follow the link to the questionnaire. Goodbye 👋"
-ENTER_TEXT = "Enter your text here."
-THINKING = "Thinking..."
-INTERACTION_END = "The interaction will now end"
-
+PAGE_TITLE = "Nachhaltigkeits-ChatBot - Arambot"
+WELCOME_MESSAGE = "Willkommen bei Arambot - Diskutiere über Nachhaltigkeit!"
+ENTER_IDENTIFIER = "Bitte Namen eingeben, um zu beginnen:"
+SECOND_WELCOME_MESSAGE = "Willkommen beim persönlichen Nachhaltigkeits-ChatBot"
+CHATBOT_DESCRIPTION = "*Dies ist ein einfacher Chatbot, der auf Gespräche über Nachhaltigkeit ausgerichtet ist.*"
+TOPIC_SELECTION = "Welches Thema zur Nachhaltigkeit betrachten Sie skeptisch?"
+AVATAR_SELECTION = "*Avatare auswählen:*"
+GOODBYE_MESSAGE = "Vielen Dank für Ihre Interaktion mit dem Nachhaltigkeits-ChatBot!"
+LINK_MESSAGE = "Bitte folgen Sie dem Link zum Fragebogen. Auf Wiedersehen 👋"
+ENTER_TEXT = "Geben Sie hier Ihren Text ein."
+THINKING = "Denkt nach..."
+INTERACTION_END = "Die Interaktion wird jetzt beendet."
 
 
 
@@ -200,7 +202,7 @@ else:
         st.title(f"Hallo, {st.session_state.name}! {SECOND_WELCOME_MESSAGE}")
         st.markdown(CHATBOT_DESCRIPTION)
     elif not st.session_state.goodbye_shown :
-        st.title(f"Welcome back {st.session_state.name} to the Personal Sustainability ChatBot")
+        st.title(f"Willkommen zurück {st.session_state.name} zum persönlichen Nachhaltigkeits-ChatBot")
         st.markdown(CHATBOT_DESCRIPTION)
 
     # Initialize session state for chatbot
@@ -235,7 +237,7 @@ else:
             )
         with col2:
             st.session_state.avatars['user'] = st.selectbox(
-                "User Avatar", options=["👤", "👱‍♂️", "👨🏾", "👩", "👧🏾"], index=0
+                "Nutzer Avatar", options=["👤", "👱‍♂️", "👨🏾", "👩", "👧🏾"], index=0
             )
 
     # Define function to get responses
@@ -279,7 +281,7 @@ else:
                     with st.chat_message("assistant", avatar=st.session_state.avatars['assistant']):
                         with st.spinner(THINKING):
                             response, st.session_state.chat_history = get_response(
-                                user_text=f"Give answer to statement: {st.session_state.user_text}. And finish the conversation by saying goodbye",
+                                user_text=f"Antwort auf die Aussage geben: {st.session_state.user_text}. Beende die Unterhaltung und verabschiede dich.",
                                 chat_history=st.session_state.chat_history,
                                 pipeline=pipeline
                             )
