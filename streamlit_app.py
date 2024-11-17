@@ -162,7 +162,7 @@ def get_response(chat_history, user_text, pipeline):
     chat_history.append({'role': 'user', 'content': user_text})
     outputs = pipeline(
         chat_history,
-        max_new_tokens=200,
+        max_new_tokens=300,
     )
     response = outputs[0]["generated_text"][-1]["content"]
     chat_history.append({'role': 'assistant', 'content': response})
