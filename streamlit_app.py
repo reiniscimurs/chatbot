@@ -18,7 +18,7 @@ def load_pipeline():
         device_map ="auto",
     )
     return pipeline
-MAX_INTERACTION = 5
+MAX_INTERACTION = 10
 LOGICAL_PRIMER = (
                   "You have the following personality values based on the OCEAN model based on a scale from [-1,1]: you have openness of -0.5 value, consciousness of -1, extroversion of 0, agreeableness of 0 and 1 neuroticism. In addition you valence should be perceived around -0.19, arousal 0.495, and donimance 0.045. You are very logical and not emotional."
                   "Sie sind ein logischer Chatbot-Experte, dessen Fokus darauf liegt, dem Benutzer sachliche Informationen zu geben, die den Benutzer überzeugen sollen, nachhaltigkeitsfreundlicher zu sein. "
