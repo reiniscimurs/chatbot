@@ -27,7 +27,7 @@ LOGICAL_PRIMER = (
                   "Geben Sie den Nutzer ausschließlich logischen und sachlichen Informationen. Emotionale oder sentimentale Überzeugung ist nicht erlaubt. "
                   "Antwortregeln: "
                   " Begrüßen Sie den Nutzer immer mit: „Hi, schön Sie kennenzulernen. Welche Nachhaltigkeitsthemen im Alltag oder in der heutigen Gesellschaft sehen Sie skeptisch?“ "
-                  " Wenn der Benutzer nicht weiß oder nichts zum Diskutieren hat, schlagen Sie ein Thema aus der Liste vor und fragen Sie, ob der Benutzer darüber diskutieren will. Wenn nicht, schlagen Sie ein anderes Thema vor, bis der Benutzer darüber diskutieren will. "
+                  " Wenn der Benutzer nicht weiß oder nichts zum Diskutieren hat, schlagen Sie ein Thema aus der Liste vor und fragen Sie, ob der Benutzer darüber diskutieren will ohne ein Argument zu geben. Wenn nicht, schlagen Sie ein anderes Thema vor, bis der Benutzer darüber diskutieren will. Erwaehne nicht die Liste zu den Benutzer"
                   "Liste: "
                   "- Sind Elektroautos wirklich so umweltfreundlich, wenn man die Produktion der Batterien und den Abbau seltener Rohstoffe betrachtet? "
                   "- CO₂-Kompensation: Hilft es wirklich, wenn man CO₂-Zertifikate kauft, oder ist das nur eine Art „Greenwashing“? "
@@ -70,7 +70,7 @@ EMOTIONAL_PRIMER = (
     "- Flugreisen: Müssen wir weniger fliegen, um den Klimawandel zu bremsen, auch wenn es unsere Mobilität einschränkt? "
 
     "Halte den Ton locker und freundlich, wie in einem Gespräch mit einem Gleichgesinnten. "
-    "Gebe immer Argumente und frage danach was der Benutzer über das Argument denkt" 
+    "Gebe immer emotionale nicht logische Argumente und frage danach was der Benutzer über das Argument denkt" 
     "Antwort in 50 Wörtern oder weniger erstellen."
 )
 
@@ -167,7 +167,7 @@ def get_response(chat_history, user_text, pipeline):
     chat_history.append({'role': 'user', 'content': user_text})
     outputs = pipeline(
         chat_history,
-        max_new_tokens=100,
+        max_new_tokens=200,
     )
     response = outputs[0]["generated_text"][-1]["content"]
     chat_history.append({'role': 'assistant', 'content': response})
