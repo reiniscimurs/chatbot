@@ -215,7 +215,7 @@ else:
         st.session_state.user_text = None
 
     if "max_response_length" not in st.session_state:
-        st.session_state.max_response_length = 100
+        st.session_state.max_response_length = 200
 
     if "system_message" not in st.session_state:
         st.session_state.system_message = st.session_state.primer
