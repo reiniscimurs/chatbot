@@ -60,6 +60,7 @@ ENTER_IDENTIFIER = "Bitte Namen eingeben, um zu beginnen:"
 SECOND_WELCOME_MESSAGE = "Willkommen beim persönlichen Nachhaltigkeits-ChatBot"
 CHATBOT_DESCRIPTION = "*Ein Chatbot für Gespräche über Nachhaltigkeit*"
 TOPIC_SELECTION = "Welches Thema zur Nachhaltigkeit betrachten Sie skeptisch?"
+TOPIC_SELECTION_BASE = "Hallo,schön dich kennenzulernen! Was sind deine Hobbies?"
 AVATAR_SELECTION = "*Avatare auswählen:*"
 GOODBYE_MESSAGE = "Vielen Dank für Ihre Chat mit dem Nachhaltigkeits-ChatBot!"
 LINK_MESSAGE = "Bitte folgen Sie dem Link zum Fragebogen. Auf Wiedersehen 👋"
@@ -242,7 +243,10 @@ else:
         st.session_state.system_message = st.session_state.primer
 
     if "starter_message" not in st.session_state:
-        st.session_state.starter_message = TOPIC_SELECTION
+        if st.session_state.primer == BASE_PRIMER:
+            st.session_state.starter_message = TOPIC_SELECTION_BASE
+        else:
+            st.session_state.starter_message = TOPIC_SELECTION
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = [
