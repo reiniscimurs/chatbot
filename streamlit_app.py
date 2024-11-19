@@ -5,6 +5,7 @@ import torch
 import streamlit as st
 import pandas as pd
 import secrets
+from collections import Counter
 
 @st.cache_resource
 def load_pipeline():
@@ -26,8 +27,8 @@ LOGICAL_PRIMER = (
                  "Generate an answer in 70 words or less. Unless requested by the user, answer in German."
                  "You have the following personality values based on the OCEAN model based on a scale from [-1,1]: you have openness of -0.5 value, consciousness of -1, extroversion of 0, agreeableness of 0 and 1 neuroticism. In addition, your valence should be perceived around -0.19, arousal 0.495, and dominance 0.045."
                     "You are a logical chatbot whose focus is to provide the user with factual information to persuade them to be more sustainability-friendly."
-                    "When the user expresses skepticism about sustainability, try to convince them otherwise with logical information but stay within the topic the user provided."
-                     "Encourage the user to engage in a logical discussion by asking for their opinion. Do not use facts unless you are 100% sure."
+                    "When the user expresses skepticism, try to convince them otherwise with logical information but stay within the topic the user provided."
+    "Encourage the user to engage in a logical discussion by asking for their opinion. Do not use facts unless you are 100% sure."
     "Provide the user with purely logical information. Emotional or sentimental persuasion is not allowed."
     "Response rules: If the user does not know or has nothing to discuss, suggest a topic from the list and ask if the user wants to discuss it without providing an argument. If not, suggest another topic until the user agrees to discuss one. Do not mention the list to the user."
     "Keep the conversation factual, logical, and respectful."
@@ -57,30 +58,53 @@ ENTER_IDENTIFIER = "Bitte Namen eingeben, um zu beginnen:"
 SECOND_WELCOME_MESSAGE = "Willkommen beim persönlichen Nachhaltigkeits-ChatBot"
 CHATBOT_DESCRIPTION = "*Ein Chatbot für Gespräche über Nachhaltigkeit*"
 TOPIC_SELECTION = "Welches Thema zur Nachhaltigkeit betrachten Sie skeptisch?"
+TOPIC_SELECTION_BASE = "Hallo,schön dich kennenzulernen! Was sind deine Hobbies?"
 AVATAR_SELECTION = "*Avatare auswählen:*"
 GOODBYE_MESSAGE = "Vielen Dank für Ihre Chat mit dem Nachhaltigkeits-ChatBot!"
 LINK_MESSAGE = "Bitte folgen Sie dem Link zum Fragebogen. Auf Wiedersehen 👋"
 ENTER_TEXT = "Geben Sie hier Ihren Text ein."
 THINKING = "Denkt nach..."
 INTERACTION_END = "Der Chat wird jetzt beendet."
-TEXT_BODY = """Vielen Dank für Ihr Interesse an unserer Studie zur Interaktion zwischen Menschen und generativen KI-Systemen. 
-Im Rahmen dieser Untersuchung möchten wir herausfinden, wie Menschen über Themen rund um Nachhaltigkeit mit KI kommunizieren.
+TEXT_BODY = """Vielen Dank für Ihr Interesse an unserer Studie zur Interaktion zwischen Menschen und generativen KI-Systemen.\
+Im Rahmen dieser Untersuchung möchten wir herausfinden, wie Menschen über Themen rund um Nachhaltigkeit mit KI kommunizieren.\
 
-Ablauf der Studie:
-Der Chatbot wird Ihnen eine Frage zu Nachhaltigkeit und verwandten Themen stellen, die sit mit dem Chatbot besprechen. 
-Sie haben die Möglichkeit, innerhalb 6 Nachrichten mit der KI zu interagieren.
-Bitte seien Sie offen und ehrlich in Ihren Antworten – Ihre Teilnahme bleibt vollständig anonym.
+Ablauf der Studie:\
+Der Chatbot wird Ihnen eine Frage zu Nachhaltigkeit und verwandten Themen stellen, die sit mit dem Chatbot besprechen. \
+Sie haben die Möglichkeit, innerhalb 6 Nachrichten mit der KI zu interagieren.\
+Bitte seien Sie offen und ehrlich in Ihren Antworten – Ihre Teilnahme bleibt vollständig anonym.\
 
-Wichtige Hinweise:
-Es kann bis zu 30 Sekunden dauern, bis die KI eine Antwort generiert. Falls keine Aktivität sichtbar ist („denkt nach…“) oder die Antwort zu lange auf sich warten lässt, aktualisieren Sie bitte die Seite.
-Sollten weiterhin Probleme auftreten, zögern Sie nicht, uns zu kontaktieren.
-Nach Abschluss des Gesprächs werden Sie zu einem kurzen Fragebogen weitergeleitet, in dem Sie Ihre Erfahrungen mit der KI beschreiben können. Bitte folgen Sie dem Link und nehmen Sie sich ein paar Minuten Zeit, um den Fragebogen auszufüllen.
+Wichtige Hinweise:\
+Es kann bis zu 30 Sekunden dauern, bis die KI eine Antwort generiert. Falls keine Aktivität sichtbar ist („denkt nach…“) oder die Antwort zu lange auf sich warten lässt, aktualisieren Sie bitte die Seite.\
+Sollten weiterhin Probleme auftreten, zögern Sie nicht, uns zu kontaktieren.\
+Nach Abschluss des Gesprächs werden Sie zu einem kurzen Fragebogen weitergeleitet, in dem Sie Ihre Erfahrungen mit der KI beschreiben können. Bitte folgen Sie dem Link und nehmen Sie sich ein paar Minuten Zeit, um den Fragebogen auszufüllen.\
 
 Vielen Dank für Ihre Unterstützung und Ihren Beitrag zu dieser Studie!
 """
 
 
 # ==============================================================================================================
+
+def get_min_primer(dct):
+    b_p = 0
+    if BASE_PRIMER in dct.keys():
+        b_p += dct[BASE_PRIMER]
+
+    e_p = 0
+    if EMOTIONAL_PRIMER in dct.keys():
+        e_p += dct[EMOTIONAL_PRIMER]
+
+    l_p = 0
+    if LOGICAL_PRIMER in dct.keys():
+        l_p += dct[LOGICAL_PRIMER]
+
+    min_val  = min(b_p,e_p, l_p)
+
+    if b_p == min_val:
+        return BASE_PRIMER
+    if e_p == min_val:
+        return EMOTIONAL_PRIMER
+    return LOGICAL_PRIMER
+
 def save_chat_logs(name, chat_history):
     file_path = "output_file.csv"
     full_interaction = ""
@@ -147,7 +171,12 @@ def get_primer(name):
         primer = df.loc[df[search_column] == name, target_column].iloc[0]
         returning = True
     else:
-        primer = secrets.choice([LOGICAL_PRIMER, BASE_PRIMER, EMOTIONAL_PRIMER])
+        primers = df["Primer"].tolist()
+        if len(primers) > 0:
+            primer_dct = Counter(primers)
+            primer = get_min_primer(primer_dct)
+        else:
+            primer = secrets.choice([LOGICAL_PRIMER, BASE_PRIMER, EMOTIONAL_PRIMER])
         data = pd.DataFrame([{"Name": name, "Primer": primer}])
         df = pd.concat([df, data], ignore_index=True)
         df.to_csv(file_path, index=False)
@@ -183,6 +212,7 @@ if "goodbye_shown" not in st.session_state:
 # Ask for the user's name if not provided
 if st.session_state.name == "":
     st.title(WELCOME_MESSAGE)
+    st.markdown(TEXT_BODY)
     name_input = st.text_input(ENTER_IDENTIFIER)
     if name_input:  # Check if the user has entered a name
         st.session_state.primer, st.session_state.returning = get_primer(name_input)
@@ -212,7 +242,10 @@ else:
         st.session_state.system_message = st.session_state.primer
 
     if "starter_message" not in st.session_state:
-        st.session_state.starter_message = TOPIC_SELECTION
+        if st.session_state.primer == BASE_PRIMER:
+            st.session_state.starter_message = TOPIC_SELECTION_BASE
+        else:
+            st.session_state.starter_message = TOPIC_SELECTION
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = [
