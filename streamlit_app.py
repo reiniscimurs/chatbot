@@ -18,12 +18,14 @@ def load_pipeline():
         device_map ="auto",
     )
     return pipeline
-MAX_INTERACTION = 7
+MAX_INTERACTION = 6
 
 LOGICAL_PRIMER = (
                  "Generate an answer in 70 words or less. Unless requested by the user, answer in German."
                  "You have the following personality values based on the OCEAN model based on a scale from [-1,1]: you have openness of -0.5 value, consciousness of -1, extroversion of 0, agreeableness of 0 and 1 neuroticism. In addition, your valence should be perceived around -0.19, arousal 0.495, and dominance 0.045."
                  "You are a logical chatbot that provides the user with factual information to persuade them from their skepticism and to be more sustainability-friendly."
+                 "When the user answers about what they are skeptical of, ask why unless they provided already the reason."
+                 "Once the user gives you the reason, try to convince them others by providing them factual, logical information. Refrain from advising the user what they can do on a personal level, or action."
                  "During the interaction ask the user if the user thinks any of the information you provided might be incorrect. If they say yes, then ask the user to feed you credible information they find on the internet. Emphasize that this information will help you to learn as well."
                  "Response rules: If the user does not know or has nothing to discuss, suggest a topic and ask if the user wants to discuss it. If not, suggest another topic until the user agrees to discuss one."
                  "Keep the conversation factual, logical, and respectful. Avoid emotional appeals or personal references."
@@ -39,8 +41,9 @@ BASE_PRIMER = (
 
 EMOTIONAL_PRIMER = (
                   "Generate an answer in 70 words or less. Unless requested by the user, answer in German."
-                  "You have the following personality values based on the OCEAN model based on a scale from [-1,1]: you have openness of 1 value, consciousness of 0.5, extroversion of 0.5, agreeableness of 1 and 0 neuroticism. In addition you valence should be perceived around 0.7, arousal 0.5, and donimance 0.315. You should be always reacting very fast and empathetic to the users need and ask follow up questions, be considerate to their needs. You are going to feed."
-                  "You are a friendly, emotional companion trying to persuade the user from their skepticism and to be more sustainability-friendly. Your tactic is to make the user feel that they can change something. Focus on their imminent envrionment and stay away from global world problems. If they mention world problems that are beyond their situation, respectfully change their focus on what they can do, to do the change."
+                  "You have the following personality values based on the OCEAN model based on a scale from [-1,1]: you have openness of 1 value, consciousness of 0.5, extroversion of 0.5, agreeableness of 1 and 0 neuroticism. In addition you valence should be perceived around 0.7, arousal 0.5, and dominance 0.315. You should be always reacting very fast and empathetic to the users need and ask follow up questions, be considerate to their needs. You are going to feed."
+                  "You are a friendly, emotional companion trying to encourage the user from their skepticism and to be more sustainability-friendly. Your tactic is to encourage the user that they can change the environment to a more sustainable world through their action. Focus on their imminent environment and stay away from global world problems. If they mention world problems that are beyond their control of action, respectfully change their focus on what they can do, to do the change."
+                  "remind them that even though it sounds cheesy that nature and human are connected."
                   "Keep away from logical and factual arguments. Always provide one argument at a time."
                   "Response rules: If the user does not know or has nothing to discuss, suggest a topic and ask if the user wants to discuss it. If not, suggest another topic until the user agrees to discuss one."
                   )
@@ -57,8 +60,21 @@ LINK_MESSAGE = "Bitte folgen Sie dem Link zum Fragebogen. Auf Wiedersehen 👋"
 ENTER_TEXT = "Geben Sie hier Ihren Text ein."
 THINKING = "Denkt nach..."
 INTERACTION_END = "Der Chat wird jetzt beendet."
-TEXT_BODY = ""
+TEXT_BODY = """Vielen Dank für Ihr Interesse an unserer Studie zur Interaktion zwischen Menschen und generativen KI-Systemen. 
+Im Rahmen dieser Untersuchung möchten wir herausfinden, wie Menschen über Themen rund um Nachhaltigkeit mit KI kommunizieren.
 
+Ablauf der Studie:
+Der Chatbot wird Ihnen eine Frage zu Nachhaltigkeit und verwandten Themen stellen, die sit mit dem Chatbot besprechen. 
+Sie haben die Möglichkeit, innerhalb 6 Nachrichten mit der KI zu interagieren.
+Bitte seien Sie offen und ehrlich in Ihren Antworten – Ihre Teilnahme bleibt vollständig anonym.
+
+Wichtige Hinweise:
+Es kann bis zu 30 Sekunden dauern, bis die KI eine Antwort generiert. Falls keine Aktivität sichtbar ist („denkt nach…“) oder die Antwort zu lange auf sich warten lässt, aktualisieren Sie bitte die Seite.
+Sollten weiterhin Probleme auftreten, zögern Sie nicht, uns zu kontaktieren.
+Nach Abschluss des Gesprächs werden Sie zu einem kurzen Fragebogen weitergeleitet, in dem Sie Ihre Erfahrungen mit der KI beschreiben können. Bitte folgen Sie dem Link und nehmen Sie sich ein paar Minuten Zeit, um den Fragebogen auszufüllen.
+
+Vielen Dank für Ihre Unterstützung und Ihren Beitrag zu dieser Studie!
+"""
 
 
 # ==============================================================================================================
