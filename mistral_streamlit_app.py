@@ -5,6 +5,10 @@ import torch
 import streamlit as st
 import pandas as pd
 import secrets
+from collections import Counter
+
+from sympy import prime
+
 
 @st.cache_resource
 def load_pipeline():
@@ -80,6 +84,28 @@ Vielen Dank für Ihre Unterstützung und Ihren Beitrag zu dieser Studie!
 
 
 # ==============================================================================================================
+def get_min_primer(dct):
+    b_p = 0
+    if BASE_PRIMER in dct.keys():
+        b_p += dct[BASE_PRIMER]
+
+    e_p = 0
+    if EMOTIONAL_PRIMER in dct.keys():
+        e_p += dct[EMOTIONAL_PRIMER]
+
+    l_p = 0
+    if LOGICAL_PRIMER in dct.keys():
+        l_p += dct[LOGICAL_PRIMER]
+
+    min_val  = min(b_p,e_p, l_p)
+
+    if b_p == min_val:
+        return BASE_PRIMER
+    if e_p == min_val:
+        return EMOTIONAL_PRIMER
+    return LOGICAL_PRIMER
+
+
 def save_chat_logs(name, chat_history):
     file_path = "output_file.csv"
     full_interaction = ""
@@ -95,7 +121,7 @@ def save_chat_logs(name, chat_history):
         df = pd.read_csv(file_path)
     except (FileNotFoundError, pd.errors.EmptyDataError):
         # Initialize the file with headers
-        df = pd.DataFrame(columns=["Name", "Interaction1", "Interaction2", "Interaction3", "Interaction4", "Interaction5"])
+        df = pd.DataFrame(columns=["Name", "Primer", "Interaction1", "Interaction2", "Interaction3", "Interaction4", "Interaction5"])
         df.to_csv(file_path, index=False)
 
     # Ensure interaction columns are of object type to allow string assignments
@@ -146,7 +172,12 @@ def get_primer(name):
         primer = df.loc[df[search_column] == name, target_column].iloc[0]
         returning = True
     else:
-        primer = secrets.choice([LOGICAL_PRIMER, BASE_PRIMER, EMOTIONAL_PRIMER])
+        primers = df["Primer"].tolist()
+        if len(primers) > 0:
+            primer_dct = Counter(primers)
+            primer = get_min_primer(primer_dct)
+        else:
+            primer = secrets.choice([LOGICAL_PRIMER, BASE_PRIMER, EMOTIONAL_PRIMER])
         data = pd.DataFrame([{"Name": name, "Primer": primer}])
         df = pd.concat([df, data], ignore_index=True)
         df.to_csv(file_path, index=False)
