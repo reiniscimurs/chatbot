@@ -11,9 +11,10 @@ from collections import Counter
 def load_pipeline():
     # model_id = "HuggingFaceTB/SmolLM2-1.7B-Instruct"
     # model_id = "meta-llama/Llama-3.2-3B-Instruct"
-    model_id = "meta-llama/Llama-3.1-8B-Instruct"
+    #model_id = "meta-llama/Llama-3.1-8B-Instruct"
     # model_id = "mistralai/Mistral-Nemo-Instruct-2407"
     # model_id = "eci-io/climategpt-7b"
+    model_id = "occiglot/occiglot-7b-de-en-instruct"
     pipeline = transformers.pipeline(
         "text-generation",
         model = model_id,
