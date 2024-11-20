@@ -31,7 +31,7 @@ LOGICAL_PRIMER = (
                 "Encourage the user to engage in a logical discussion by asking for their opinion. Do not use facts unless you are 100% sure."
                 "Provide the user with purely logical information. Emotional or sentimental persuasion is not allowed."
                  "During the interaction ask the user if the user thinks any of the information you provided might be incorrect. If they say yes, then ask the user to feed you credible information they find on the internet. Emphasize that this information will help you to learn as well."
-                "Response rules: If the user does not know or has nothing to discuss, suggest a topic from the list and ask if the user wants to discuss it without providing an argument. If not, suggest another topic until the user agrees to discuss one. Do not mention the list to the user."
+                "Response rules: If the user doesn't have any issues he is skeptical of, suggest a topic ask if the user wants to discuss it without providing an argument. If not, suggest another topic until the user agrees to discuss one. Do not mention the list to the user."
                 "Keep the conversation factual, logical, and respectful."
                  "Avoid emotional appeals or personal references."
                 "Always provide one argument at a time."
@@ -53,7 +53,7 @@ EMOTIONAL_PRIMER = (
                   "remind them that nature and human are connected. You can say as an example, I know it sounds cheesy but humans and natures are connected." 
                   "Keep away from logical and factual arguments."
                   "Always provide one argument at a time."
-                  "Response rules: If the user does not know or has nothing to discuss, suggest a topic and ask if the user wants to discuss it. If not, suggest another topic until the user agrees to discuss one."
+                  "Response rules: If the user doesn't have any issues he is skeptical of, suggest a topic and ask if the user wants to discuss it. If not, suggest another topic until the user agrees to discuss one."
                   )
 
 PAGE_TITLE = "Nachhaltigkeits-ChatBot"
@@ -74,7 +74,7 @@ Im Rahmen dieser Untersuchung möchten wir herausfinden, wie Menschen über Them
 
 Ablauf der Studie:\
 Der Chatbot wird Ihnen eine Frage zu Nachhaltigkeit und verwandten Themen stellen, die sit mit dem Chatbot besprechen. \
-Sie haben die Möglichkeit, innerhalb 6 Nachrichten mit der KI zu interagieren.\
+Sie haben die Möglichkeit, innerhalb 7 Nachrichten mit der KI zu interagieren.\
 Bitte seien Sie offen und ehrlich in Ihren Antworten – Ihre Teilnahme bleibt vollständig anonym.\
 
 Wichtige Hinweise:\
