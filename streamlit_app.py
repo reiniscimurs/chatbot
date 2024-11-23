@@ -1,4 +1,5 @@
 import argparse
+import sys
 import time
 
 import transformers
@@ -8,11 +9,14 @@ import pandas as pd
 import secrets
 from collections import Counter
 
+
+streamlit_args = sys.argv[:1] + ["run", sys.argv[0]]
+custom_args = sys.argv[1:]
 parser = argparse.ArgumentParser(description="Run the Nachhaltigkeits-ChatBot with optional configurations.")
 parser.add_argument("--model_id", type=str, default="Qwen/Qwen2.5-14B-Instruct", help="Specify the model ID to use.")
 parser.add_argument("--max_interaction", type=int, default=7, help="Specify the maximum number of interactions allowed.")
 
-args = parser.parse_args()
+args, unknown = parser.parse_known_args(custom_args)
 
 @st.cache_resource
 def load_pipeline(model_id):
