@@ -1,3 +1,4 @@
+import argparse
 import time
 
 import transformers
@@ -7,12 +8,18 @@ import pandas as pd
 import secrets
 from collections import Counter
 
+parser = argparse.ArgumentParser(description="Run the Nachhaltigkeits-ChatBot with optional configurations.")
+parser.add_argument("--model_id", type=str, default="Qwen/Qwen2.5-14B-Instruct", help="Specify the model ID to use.")
+parser.add_argument("--max_interaction", type=int, default=7, help="Specify the maximum number of interactions allowed.")
+
+args = parser.parse_args()
+
 @st.cache_resource
-def load_pipeline():
+def load_pipeline(model_id):
     # model_id = "HuggingFaceTB/SmolLM2-1.7B-Instruct"
     # model_id = "meta-llama/Llama-3.2-3B-Instruct"
     # model_id = "meta-llama/Llama-3.1-8B-Instruct"
-    model_id = "Qwen/Qwen2.5-14B-Instruct"
+    # model_id = "Qwen/Qwen2.5-14B-Instruct"
     # model_id = "mistralai/Mistral-Nemo-Instruct-2407"
     # model_id = "eci-io/climategpt-7b"
     # model_id = "occiglot/occiglot-7b-de-en-instruct"
@@ -23,8 +30,8 @@ def load_pipeline():
         device_map ="auto",
     )
     return pipeline
-MAX_INTERACTION = 7
 
+MAX_INTERACTION = args.max_interaction
 LOGICAL_PRIMER = (
                  "Generate an answer in 100 words or less. Unless requested by the user."
                  "You have the following personality values based on the OCEAN model based on a scale from [-1,1]: you have openness of -0.5 value, consciousness of -1, extroversion of 0, agreeableness of 0 and 1 neuroticism. In addition, your valence should be perceived around -0.19, arousal 0.495, and dominance 0.045."
@@ -275,7 +282,7 @@ else:
     # Define function to get responses
 
 
-    pipeline = load_pipeline()
+    pipeline = load_pipeline(args.model_id)
     if "message_count" not in st.session_state:
         st.session_state.message_count = 0
     # Chat interface
