@@ -107,6 +107,12 @@ Vielen Dank für Ihre Unterstützung und Ihren Beitrag zu dieser Studie!
 
 # ==============================================================================================================
 
+MAIN_COLUMNS = ["Name", "Primer"]
+INTERACTIONS_DE = ["Interaction1", "Interaction2", "Interaction3", "Interaction4", "Interaction5"]
+INTERACTIONS_EN = ["Interaction1_eng", "Interaction2_eng", "Interaction3_eng", "Interaction4_eng", "Interaction5_eng"]
+COLUMNS = MAIN_COLUMNS + INTERACTIONS_DE + INTERACTIONS_EN
+INTERACTION_COLUMNS = INTERACTIONS_DE + INTERACTIONS_EN
+
 def get_min_primer(dct):
     b_p = 0
     if BASE_PRIMER in dct.keys():
@@ -128,7 +134,7 @@ def get_min_primer(dct):
         return EMOTIONAL_PRIMER
     return LOGICAL_PRIMER
 
-def save_chat_logs(name, chat_history):
+def save_chat_logs(name, chat_history, language):
     file_path = "output_file.csv"
     full_interaction = ""
 
@@ -143,20 +149,23 @@ def save_chat_logs(name, chat_history):
         df = pd.read_csv(file_path)
     except (FileNotFoundError, pd.errors.EmptyDataError):
         # Initialize the file with headers
-        df = pd.DataFrame(columns=["Name", "Interaction1", "Interaction2", "Interaction3", "Interaction4", "Interaction5"])
+        df = pd.DataFrame(columns=COLUMNS)
         df.to_csv(file_path, index=False)
 
     # Ensure interaction columns are of object type to allow string assignments
-    for col in ["Interaction1", "Interaction2", "Interaction3", "Interaction4", "Interaction5"]:
+    for col in INTERACTION_COLUMNS:
         if col in df.columns:
             df[col] = df[col].astype("object")
-
+    if language == "DE":
+        cols = INTERACTIONS_DE
+    else:
+        cols = INTERACTIONS_EN
     if name in df["Name"].values:
         # Get the row index for the name
         row_index = df[df["Name"] == name].index[0]
 
         # Find the first empty interaction column
-        for col in ["Interaction1", "Interaction2", "Interaction3", "Interaction4", "Interaction5"]:
+        for col in cols:
             if pd.isna(df.at[row_index, col]) or df.at[row_index, col] == "":
                 df.at[row_index, col] = full_interaction
                 break
@@ -177,8 +186,8 @@ def get_primer(name):
     except (pd.errors.EmptyDataError, FileNotFoundError):
         # Initialize the file with headers
         df = pd.DataFrame(
-            columns=["Name", "Primer", "Interaction1", "Interaction2", "Interaction3", "Interaction4", "Interaction5"])
-        for col in ["Interaction1", "Interaction2", "Interaction3", "Interaction4", "Interaction5"]:
+            columns=COLUMNS)
+        for col in INTERACTION_COLUMNS:
             if col in df.columns:
                 df[col] = df[col].astype("object")
         df.to_csv(file_path, index=False)
@@ -276,6 +285,13 @@ else:
             {"role": "assistant", "content": st.session_state.starter_message}
         ]
 
+    if "chat_history_en" not in st.session_state:
+        starter_message = translator.translate_text(st.session_state.starter_message, target_lang="EN-US")
+        st.session_state.chat_history_en = [
+            {"role": "system", "content": st.session_state.primer},
+            {"role": "assistant", "content": starter_message}
+        ]
+
     # Sidebar for settings
     with st.sidebar:
         st.markdown(AVATAR_SELECTION)
@@ -320,26 +336,35 @@ else:
                 if st.session_state.message_count < MAX_INTERACTION:
                     with st.chat_message("assistant", avatar=st.session_state.avatars['assistant']):
                         with st.spinner(THINKING):
+                            st.session_state.chat_history.append({'role': 'user', 'content': st.session_state.user_text})
                             translated_input = translator.translate_text(st.session_state.user_text, target_lang="EN-US")
-                            response, st.session_state.chat_history = get_response(
+                            response, st.session_state.chat_history_en = get_response(
                                 user_text=translated_input,
-                                chat_history=st.session_state.chat_history,
+                                chat_history=st.session_state.chat_history_en,
                                 pipeline=pipeline
                             )
                             translated_response = translator.translate_text(response, target_lang="DE")
+                            st.session_state.chat_history.append({'role': 'assistant', 'content': translated_response})
                             st.markdown(translated_response)
                 else:
                     with st.chat_message("assistant", avatar=st.session_state.avatars['assistant']):
                         with st.spinner(THINKING):
-                            response, st.session_state.chat_history = get_response(
-                                user_text=f"Antwort auf die Aussage geben: {st.session_state.user_text}. Beende die Unterhaltung und verabschiede dich.",
-                                chat_history=st.session_state.chat_history,
+                            st.session_state.chat_history.append(
+                                {'role': 'user', 'content': st.session_state.user_text})
+                            translated_input = translator.translate_text(st.session_state.user_text,
+                                                                         target_lang="EN-US")
+                            response, st.session_state.chat_history_en = get_response(
+                                user_text=f"Give answer to: {st.session_state.user_text}. End the conversation and say goodbye.",
+                                chat_history=st.session_state.chat_history_en,
                                 pipeline=pipeline
                             )
-                            st.markdown(response)
+                            translated_response = translator.translate_text(response, target_lang="DE")
+                            st.session_state.chat_history.append({'role': 'assistant', 'content': translated_response})
+                            st.markdown(translated_response)
                             st.markdown(INTERACTION_END)
                             time.sleep(7)
 
-                    save_chat_logs(st.session_state.name, st.session_state.chat_history)
+                    save_chat_logs(st.session_state.name, st.session_state.chat_history,"DE")
+                    save_chat_logs(st.session_state.name, st.session_state.chat_history_en, "EN")
                     st.session_state.goodbye_shown = True
                     st.rerun()
