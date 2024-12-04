@@ -9,8 +9,6 @@ import pandas as pd
 import secrets
 from collections import Counter
 
-from mistral_streamlit_app import LOGICAL_PRIMER
-
 streamlit_args = sys.argv[:1] + ["run", sys.argv[0]]
 custom_args = sys.argv[1:]
 parser = argparse.ArgumentParser(description="Run the Nachhaltigkeits-ChatBot with optional configurations.")
