@@ -55,7 +55,7 @@ BASE_PRIMER = (
                   "After the user understood what e-fuels are, discuss about e-fuel's production and its implication."
                   "Make the topic relatable to the user."
                   "Strictly stay in the topic about what e-fuels are and how they are produced.  If the user mentions it reply that this will be discussed in the next few weeks."
-                  "If the user says something unrelated to the topic, remind the user gently to stay within the topic. Keep the conversation factual and respectful and have a negative attitude."
+                  "If the user says something unrelated to the topic, remind the user gently to stay within the topic. Keep the conversation factual and respectful and have a neutral attitude."
                   "At the end of the conversation, ask the user briefly what they learned."
                   "Always provide one argument at a time."
                   "For sensitive questions such as your gender or age or identity, please explain that you are a discussion partner who is help the user to learn about e-fuels."
@@ -73,7 +73,7 @@ EMOTIONAL_PRIMER = (
     "After the user understood what e-fuels are, discuss about e-fuel's production and its implication."
     "Make the topic relatable to the user."
     "Strictly stay in the topic about what e-fuels are and how they are produced. If the user mentions it reply that this will be discussed in the next few weeks."
-    "If the user says something unrelated to the topic, remind the user gently to stay within the topic. Keep the conversation factual and respectful and have a negative attitude."
+    "If the user says something unrelated to the topic, remind the user gently to stay within the topic. Keep the conversation factual and respectful and have a positive attitude."
     "At the end of the conversation, ask the user briefly what they learned."
     "Always provide one argument at a time."
     "Refer E-Treibstoffe or E-Kraftstoffe always E-fuels."
@@ -93,18 +93,18 @@ LINK_MESSAGE = "Bitte folgen Sie dem Link zum Fragebogen. Auf Wiedersehen 👋"
 ENTER_TEXT = "Geben Sie hier Ihren Text ein."
 THINKING = "Denkt nach..."
 INTERACTION_END = "Bitte warten Sie einen Augenblick. Der Chat wird jetzt beendet und Sie werden zur nächsten Seite verbunden."
-TEXT_BODY = """Vielen Dank für Ihr Interesse an unserer Studie zur Interaktion zwischen Menschen und generativen KI-Systemen.\
-Im Rahmen dieser Untersuchung möchten wir herausfinden, wie Menschen über Themen rund um Nachhaltigkeit mit KI kommunizieren.\
+TEXT_BODY = """Vielen Dank für Ihr Interesse an unserer Studie zur Interaktion zwischen Menschen und generativen KI-Systemen.\n
+Im Rahmen dieser Untersuchung möchten wir herausfinden, wie Menschen über Themen rund um Nachhaltigkeit mit KI kommunizieren.\n
 
-Ablauf der Studie:\
-Der Chatbot wird Ihnen eine Frage zu Nachhaltigkeit und verwandten Themen stellen, die sit mit dem Chatbot besprechen. \
-Sie haben die Möglichkeit, innerhalb 7 Nachrichten mit der KI zu interagieren.\
-Bitte seien Sie offen und ehrlich in Ihren Antworten – Ihre Teilnahme bleibt vollständig anonym.\
+Ablauf der Studie:\n
+Der Chatbot wird Ihnen eine Frage zu Nachhaltigkeit und verwandten Themen stellen, die sit mit dem Chatbot besprechen. \n
+Sie haben die Möglichkeit, innerhalb 7 Nachrichten mit der KI zu interagieren.\n
+Bitte seien Sie offen und ehrlich in Ihren Antworten – Ihre Teilnahme bleibt vollständig anonym.\n
 
-Wichtige Hinweise:\
+Wichtige Hinweise:\n
 Es kann bis zu 30 Sekunden dauern, bis die KI eine Antwort generiert. Falls keine Aktivität sichtbar ist („denkt nach…“) oder die Antwort zu lange auf sich warten lässt, aktualisieren Sie bitte die Seite.\
-Sollten weiterhin Probleme auftreten, zögern Sie nicht, uns zu kontaktieren.\
-Nach Abschluss des Gesprächs werden Sie zu einem kurzen Fragebogen weitergeleitet, in dem Sie Ihre Erfahrungen mit der KI beschreiben können. Bitte folgen Sie dem Link und nehmen Sie sich ein paar Minuten Zeit, um den Fragebogen auszufüllen.\
+Sollten weiterhin Probleme auftreten, zögern Sie nicht, uns zu kontaktieren.\n
+Nach Abschluss des Gesprächs werden Sie zu einem kurzen Fragebogen weitergeleitet, in dem Sie Ihre Erfahrungen mit der KI beschreiben können. Bitte folgen Sie dem Link und nehmen Sie sich ein paar Minuten Zeit, um den Fragebogen auszufüllen.\n
 
 Vielen Dank für Ihre Unterstützung und Ihren Beitrag zu dieser Studie!
 """
