@@ -164,3 +164,4 @@ cython_debug/
 #.idea/
 /keys
 /output_file.csv
+/key

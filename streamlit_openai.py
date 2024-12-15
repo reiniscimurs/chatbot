@@ -9,7 +9,7 @@ from collections import Counter
 import os
 
 from openai import OpenAI
-import week1 as week
+import week2 as week
 
 api_key = os.environ.get("OPENAI_API_KEY")
 
