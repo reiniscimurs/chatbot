@@ -80,6 +80,8 @@ EMOTIONAL_PRIMER = (
     "Please refer the user formally as Sie."
 )
 
+TEXT = f'Remaining messages: 4'
+
 PAGE_TITLE = "ChatBot über E-Fuels"
 WELCOME_MESSAGE = "Willkommen - Diskutieren Sie über E-Fuels!"
 ENTER_IDENTIFIER = "Bitte Namen eingeben, um zu beginnen:"
@@ -230,6 +232,19 @@ def get_response(chat_history, user_text, model, final=False):
 
 # Initialize Streamlit app
 st.set_page_config(page_title=PAGE_TITLE, page_icon="🤗")
+global_css = """
+    <style>
+        #MainMenu {visibility: hidden;} /* Hide the hamburger menu */
+        footer {visibility: hidden;}   /* Hide the footer */
+        button[title="View app in Streamlit Community Cloud"] {
+            display: none;             /* Hide the deploy button */
+        }
+        footer:has(p:contains("Made with Streamlit")) {
+            display: none;             /* Hide the Streamlit branding */
+        }
+    </style>
+"""
+st.markdown(global_css, unsafe_allow_html=True)
 
 # Check if the name is already in session_state
 if "name" not in st.session_state:
@@ -248,6 +263,7 @@ if "goodbye_shown" not in st.session_state:
 if st.session_state.name == "":
     st.title(WELCOME_MESSAGE)
     st.markdown(TEXT_BODY)
+    st.image('Pingu.webp')
     name_input = st.text_input(ENTER_IDENTIFIER)
     if name_input:  # Check if the user has entered a name
         st.session_state.primer, st.session_state.returning = get_primer(name_input)
@@ -290,11 +306,10 @@ else:
 
     if "message_count" not in st.session_state:
         st.session_state.message_count = 0
-
     # Sidebar for settings
-    with st.sidebar:
-        st.markdown(SIDEBAR_MESSAGE)
-        st.markdown(max(0, MAX_INTERACTION - st.session_state.message_count))
+    # with st.sidebar:
+    #     st.markdown(SIDEBAR_MESSAGE)
+    #     st.markdown(max(0, MAX_INTERACTION - st.session_state.message_count))
 
     # Chat interface
     if st.session_state.goodbye_shown: #t.session_state.message_count >= MAX_INTERACTION or
@@ -312,7 +327,32 @@ else:
         chat_interface = st.container()
         with chat_interface:
             output_container = st.container()
+            remaining = max(0, MAX_INTERACTION - st.session_state.message_count)
+            st.markdown(f"""
+                        <div style="
+                            text-align: center;        /* Center the container */
+                            margin-top: 20px;          /* Add some space at the top */
+                        ">
+                            <div style="
+                                display: inline-block;  /* Make the bubble only as wide as its contents */
+                                background-color: #f0f0f0; 
+                                border-radius: 25px; 
+                                padding: 10px 20px; 
+                                box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+                            ">
+                                <p style="
+                                    margin: 0; 
+                                    font-weight: bold; 
+                                    color: #333; 
+                                    font-size: 16px;"
+                                >
+                                    Remaining messages: {remaining}
+                                </p>
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
             st.session_state.user_text = st.chat_input(placeholder=ENTER_TEXT)
+
             st.session_state.message_count += 1
 
         with output_container:
