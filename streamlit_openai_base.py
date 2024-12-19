@@ -130,7 +130,7 @@ def save_chat_logs(name, chat_history):
     # Save the updated DataFrame back to the CSV file
     df.to_csv(file_path, index=False)
 
-def get_primer(name):
+def get_primer():
     file_path = "output_file_base.csv"
     try:
         df = pd.read_csv(file_path)
@@ -143,21 +143,13 @@ def get_primer(name):
                 df[col] = df[col].astype("object")
         df.to_csv(file_path, index=False)
         print(f"Created a new CSV file with default headers: {file_path}")
-
-    search_column = "Name"  # Column to search for the value
-    target_column = "Primer"  # Column to retrieve the value from
     returning = False
 
     # Check if the value exists and retrieve the target column value
-    if name in df[search_column].values:
-        # Filter the row and get the value from the target column
-        primer = df.loc[df[search_column] == name, target_column].iloc[0]
-        returning = True
-    else:
-        primer = BASE_PRIMER
-        data = pd.DataFrame([{"Name": name, "Primer": primer}])
-        df = pd.concat([df, data], ignore_index=True)
-        df.to_csv(file_path, index=False)
+    primer = BASE_PRIMER
+    data = pd.DataFrame([{"Name": "User", "Primer": primer}])
+    df = pd.concat([df, data], ignore_index=True)
+    df.to_csv(file_path, index=False)
 
     return primer, returning
 
@@ -211,11 +203,11 @@ if "goodbye_shown" not in st.session_state:
 if st.session_state.name == "":
     st.title(WELCOME_MESSAGE)
     st.markdown(TEXT_BODY)
-    st.image('Pingu.webp')
-    name_input = st.text_input(ENTER_IDENTIFIER)
-    if name_input:  # Check if the user has entered a name
-        st.session_state.primer, st.session_state.returning = get_primer(name_input)
-        st.session_state.name = name_input  # Save the name in session_state
+    click = st.button(label="Next", type="primary")
+    # name_input = st.text_input(ENTER_IDENTIFIER)
+    if click:  # Check if the user has entered a name
+        st.session_state.name = "User"
+        st.session_state.primer, st.session_state.returning = get_primer()
         st.rerun()  # Rerun the app to update the UI
 
 # Once the name is entered, proceed with the chatbot
