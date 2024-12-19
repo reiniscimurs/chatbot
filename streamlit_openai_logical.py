@@ -44,24 +44,16 @@ TOPIC_SELECTION_BASE = week.TOPIC_SELECTION_BASE
 
 ENTER_IDENTIFIER = "Bitte Namen eingeben, um zu beginnen:"
 GOODBYE_MESSAGE = "Vielen Dank für Ihr Input!"
-LINK_MESSAGE = "Bitte folgen Sie dem Link zum Fragebogen. Auf Wiedersehen 👋"
+LINK_MESSAGE = "Bitte kehren Sie zurück zum Fragebogen. Auf Wiedersehen 👋"
 ENTER_TEXT = "Geben Sie hier Ihren Text ein."
 THINKING = "Denkt nach..."
-INTERACTION_END = "Bitte warten Sie einen Augenblick. Der Chat wird jetzt beendet und Sie werden zur nächsten Seite verbunden."
-TEXT_BODY = """Vielen Dank für Ihr Interesse an unserer Studie zur Interaktion zwischen Menschen und generativen KI-Systemen.\n
-Im Rahmen dieser Untersuchung möchten wir herausfinden, wie Menschen über Themen rund um Nachhaltigkeit mit KI kommunizieren.\n
-
-Ablauf der Studie:\n
-Der Chatbot wird Ihnen eine Frage zu Nachhaltigkeit und verwandten Themen stellen, die sit mit dem Chatbot besprechen. \n
-Sie haben die Möglichkeit, innerhalb 7 Nachrichten mit der KI zu interagieren.\n
-Bitte seien Sie offen und ehrlich in Ihren Antworten – Ihre Teilnahme bleibt vollständig anonym.\n
-
-Wichtige Hinweise:\n
-Es kann bis zu 30 Sekunden dauern, bis die KI eine Antwort generiert. Falls keine Aktivität sichtbar ist („denkt nach…“) oder die Antwort zu lange auf sich warten lässt, aktualisieren Sie bitte die Seite.\
-Sollten weiterhin Probleme auftreten, zögern Sie nicht, uns zu kontaktieren.\n
-Nach Abschluss des Gesprächs werden Sie zu einem kurzen Fragebogen weitergeleitet, in dem Sie Ihre Erfahrungen mit der KI beschreiben können. Bitte folgen Sie dem Link und nehmen Sie sich ein paar Minuten Zeit, um den Fragebogen auszufüllen.\n
-
-Vielen Dank für Ihre Unterstützung und Ihren Beitrag zu dieser Studie!
+INTERACTION_END = "Bitte warten Sie einen Augenblick. Der Chat wird jetzt beendet."
+TEXT_BODY = """
+Bevor Sie beginnen, möchten wir Ihnen einige Hinweise zur Nutzung des Chatbots geben: \n
+Es kann bis zu 30 Sekunden dauern, bis der Chatbot eine Antwort generiert. Falls keine Aktivität sichtbar ist („denkt nach…“) oder die Antwort zu lange auf sich warten lässt, aktualisieren Sie bitte die Seite. \n
+Sie können bis zu 6 Nachrichten an den Chatbot senden. Die Anzahl Ihrer verbleibenden Nachrichten wird über Ihrem Texteingabefeld angezeigt. \n
+Wenn der Chat beendet ist, kehren Sie bitte zum Fragebogen zurück. \n
+Vielen Dank für Ihre Unterstützung und Ihren Beitrag zu dieser Studie! \n
 """
 
 
